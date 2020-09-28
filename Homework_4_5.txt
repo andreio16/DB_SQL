@@ -1,0 +1,106 @@
+--------------------------------------------------------------
+			   LAB4
+--------------------------------------------------------------
+1.
+INSERT INTO faculty ( Name, YearFounded, Dean, Address)
+VALUES ('Faculty of RGGB',1986,'Gabriel Rosca',
+	'str. Pop Sect, nr. 14, Bucuresti, 770025, România'
+	);
+INSERT INTO faculty ( Name, YearFounded, Dean, Address)
+VALUES ('Faculty Coventry',1986,'Daniel Brown',
+	'str. Priory, nr. CV5, London, 796311, UK'
+	);
+2.
+SELECT * FROM `faculty` WHERE YearFounded = 1976
+AND Dean = 'Blac Ion';
+SELECT * FROM `faculty` WHERE YearFounded = 1980
+OR Dean = 'Liviu Rosca'
+OR YearFounded = 1966;
+3.
+SELECT * FROM `faculty` WHERE Name LIKE '%a%'
+OR Dean LIKE '%a%'
+OR Address LIKE '%a%';
+4.
+SELECT * FROM `faculty` WHERE MOD(IDFac,2)=1; (even nr col)
+SELECT * FROM `faculty` WHERE MOD(IDFac,2)=0; (odd nr col)
+5.Done
+6.
+SELECT * FROM `faculty` ORDER BY Dean;
+SELECT * FROM `studdata` ORDER BY FirstName;
+SELECT * FROM `studdata` ORDER BY LastName;
+7.
+DELETE FROM `faculty` WHERE YearFounded < 2000;
+Cheia straina trebuie sa aiba neaparat atributul de la "on delete" CASCADE 
+pentru a sterge automat si inregistrarile din tabela copiilor, altfel in 
+tabela parinte vor aparea erori la stergerea inregistrarilor.
+8.
+ALTER TABLE studdata 
+DROP COLUMN Nationality;
+9.
+DROP TABLE student;
+DROP TABLE grade;
+DROP TABLE studdata;
+DROP TABLE course;
+DROP TABLE specialty;
+DROP TABLE faculty;
+SELECT COUNT(Nationality) FROM studdata
+10.
+A character set is a set of symbols and encodings. A collation is a set of
+rules for comparing characters in a character set. Let's make the distinction 
+clear with an example of an imaginary character set.
+
+Suppose that we have an alphabet with four letters: 'A', 'B', 'a', 'b'.
+We give each letter a number: 'A' = 0, 'B' = 1, 'a' = 2, 'b' = 3. The letter
+ 'A' is a symbol, the number 0 is the encoding for 'A', and the combination 
+of all four letters and their encodings is a character set.
+
+Now, suppose that we want to compare two string values, 'A' and 'B'. 
+The simplest way to do this is to look at the encodings: 0 for 'A' and 1 for 'B'. 
+Because 0 is less than 1, we say 'A' is less than 'B'. Now, what we've just done
+is apply a collation to our character set. The collation is a set of rules (only 
+one rule in this case): "compare the encodings." We call this simplest of all 
+possible collations a binary collation.
+
+But what if we want to say that the lowercase and uppercase letters are equivalent? 
+Then we would have at least two rules: (1) treat the lowercase letters 'a' and 'b' 
+as equivalent to 'A' and 'B'; (2) then compare the encodings. We call this a case-
+insensitive collation. It's a little more complex than a binary collation.
+
+In real life, most character sets have many characters: not just 'A' and 'B' but whole 
+alphabets, sometimes multiple alphabets or eastern writing systems with thousands of 
+characters, along with many special symbols and punctuation marks. Also in real life, 
+most collations have many rules: not just case insensitivity but also accent insensitivity 
+(an "accent" is a mark attached to a character as in German 'ö') and multiple-character 
+mappings (such as the rule that 'ö' = 'OE' in one of the two German collations).
+
+--------------------------------------------------------------
+			   LAB5
+--------------------------------------------------------------
+1,2.	Database -> export (clicking)
+--------------------------------------------------------------
+3.	DROP DATABASE university;
+	CREATE DATABASE university;
+	Click -> import
+--------------------------------------------------------------
+4.	TRUNCATE `course`;
+	TRUNCATE `faculty`;
+	TRUNCATE `grade`;
+	TRUNCATE `specialty`;
+	TRUNCATE `studdata`;
+	TRUNCATE `student`;
+Explicatie:
+Sterge copii prima data, iar mai apoi tabelele parinte!
+--------------------------------------------------------------
+5,7.	Done import/export!
+6.	Metoda 1: Scriind in consola sql codul necesar TRUNCATE
+		 pentru fiecare tabela care trebuie golita.
+	Metoda 2: In phpmyadmin select the database you want to 
+		 truncate.In the main view scroll down, you'll 
+		 see a checkbox "Check All" and next to it a 
+		 drop-down box where you can select"Empty".Done.
+	Metoda 3: Select u DB and do Export operation as this way:
+		 select Custom Export method
+		 select 'Dump Table -> data' in Format-specific options
+		 select 'Add DROP TABLE ... statement' in Object Creation Options.
+		 do Import operation to delete and create each blank table one by 
+		 one by this script	

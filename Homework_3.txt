@@ -1,0 +1,46 @@
+	
+3.What is Auto-Increment ? When do we have to use it and when we don’t ?How we deal with indexes when it comes to deleted rows?
+
+	Auto-Increment este un atribut optional al unei coloane. Prin acest atribut, MySQL va repartiza in mod automat un numar
+ de serie ca valoare a coloanei asociate. Spre exemplu, putem folosi acest atribut pentru cheiile primare si cheile straine, asigurand
+ astel unicitatea cheii in cadrul relatiei. La introducerea liniilor în tabelele în care cheia primara are proprietatea AUTO_INCREMENT
+ se poate sa nu se specifice valoarea atributului cheii primare si aceasta este setata automat de catre sistemul de gestiune, cu valoarea
+ urmatoare (incrementata cu 1) fata de cea mai mare valoare a cheii primare existente în table.
+
+
+4.In MySQL what is the difference between PRIMARY, UNIQUE, INDEX ? and why is that very important ?
+
+	· KEY or INDEX refers to a normal non-unique index. Non-distinct values for the index are allowed, so the index may contain rows with
+identical values in all columns of the index. These indexes don't enforce any restraints on your data so they are used only for making sure 
+certain queries can run quickly.
+	· UNIQUE refers to an index where all rows of the index must be unique. That is, the same row may not have identical non-NULL values
+for all columns in this index as another row. As well as being used to speed up queries, UNIQUE indexes can be used to enforce restraints on data,
+because the database system does not allow this distinct values rule to be broken when inserting or updating data.
+Your database system may allow a UNIQUE index to be applied to columns which allow NULL values, in which case two rows are allowed to be identical
+if they both contain a NULL value (the rationale here is that NULL is considered not equal to itself). Depending on your application, however, you
+may find this undesirable: if you wish to prevent this, you should disallow NULL values in the relevant columns.
+	· PRIMARY acts exactly like a UNIQUE index, except that it is always named 'PRIMARY', and there may be only one on a table (and there should
+always be one; though some database systems don't enforce this). A PRIMARY index is intended as a primary means to uniquely identify any row in the 
+table, so unlike UNIQUE it should not be used on any columns which allow NULL values. Your PRIMARY index should be on the smallest number of columns 
+that are sufficient to uniquely identify a row. Often, this is just one column containing a unique auto-incremented number, but if there is anything 
+else that can uniquely identify a row, such as "countrycode" in a list of countries, you can use that instead.
+Some database systems (such as MySQL's InnoDB) will store a table's records on disk in the order in which they appear in the PRIMARY index.
+	· FULLTEXT indexes are different from all of the above, and their behaviour differs significantly between database systems. FULLTEXT indexes
+are only useful for full text searches done with the MATCH() / AGAINST() clause, unlike the above three - which are typically implemented internally
+using b-trees (allowing for selecting, sorting or ranges starting from left most column) or hash tables (allowing for selection starting from left 
+most column).Where the other index types are general-purpose, a FULLTEXT index is specialised, in that it serves a narrow purpose: it's only used 
+for a "full text search" feature.
+
+
+5.In what case is it important to use LIMIT 1 and why ?
+
+It is not good practice to use LIMIT 1 when querying with filter criteria that is against either a primary key or unique constraint. A primary key, 
+or unique constraint, means there is only one row/record in the table with that value, only one row/record will ever be returned. It's contradictory
+ to have LIMIT 1 on a primary key/unique field--someone maintaining the code later could mistake the importance & second guess your code.
+
+
+6.Why use ENUM instead of VARCHAR ?
+
+[VAR]CHAR can store any string you want (within its length parameter, of course).
+ENUM columns can only contain one of the strings that you specified with ENUM('one', 'two', 'three', 'etc.') at CREATE TABLE time.
+ENUMs take only 1 or 2 bytes because they're represented internally with numbers. whereas [VAR]CHAR takes as many bytes as the string is long (plus 1 for VARCHAR).

@@ -1,0 +1,59 @@
+1.What kind of databases is Facebook using and how ?
+Facebook foloseste mai multe baze de date pentru a stoca diferite informatii. In principal foloseste: 
+ -MySql pentru a structura datele stocate ca si postari pe wall, informatii despre useri, timeline.
+ -Memcached pentru stocarea cache a informatiilor de pe diferite site-uri
+ -Cassandra folosita pentru inbox search
+ -Scribe pentru sistemul de logare al userilor
+
+
+2.How would you explain a blob with simple non technical words ?
+Blob reprezinta un tip de date utilizat pentru stocarea imaginilor, videourilor sau alte tipuri
+de fisiere intr-o baza de date. Acest tip de date este alcatuit din informatie binara, dupa cum zice
+si abrevierea Binary Large Objects.
+
+3.What makes a difference between a free sql product /service version and paid product/service,
+what specific facilities ? Find examples.
+Free sql service  :
+ -licenta free, care poate fi integrata ca parte a aplicatiei
+ -limitari de memorie (10GB) si socket usage
+ -administatorul trebuie sa isi rezolve problema securitatii
+ -caracteristici de baza
+ -ex :SQL server Express,  SQL Server 2016 Enterprise, SQL Server Developer
+Paid sql service :
+ -masuri de securitate incluse si mult mai bune
+ -pot aparea noi configuratii
+ -capacitate de stocare mai mare
+ -backup inclus, managemant tools
+ -features: Distributed Replay - Admin Tool, Distribute Replay - Client, 
+	Distributed Replay - Controller, SQL Server Agent, 
+	Microsoft System Center Operations Manager Management Pack,
+	Database Tuning Advisor (DTA), SQL Server Data Tools (SSDT),
+	Advanced Python integration,Machine Learning Server (Standalone)
+ -ex :SQL Database Azure, SQL Server Web, SQL Server Express with Advanced Services
+
+
+4.Look for alternative software products in comparison with phpMyAdmin.
+DBeaver, MySQL Workbench, HeidiSQL, Adminer, Sequel Pro, Valentina Studio
+
+5.Install / get familiar with phpMyAdmin. Create a few tables, attributes, keys. Use various data types.
+DROP DATABASE demo;
+CREATE DATABASE demo;
+DROP TABLE useri;
+CREATE TABLE useri (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	first_name VARCHAR(30),
+	last_name VARCHAR(30),
+	num_credits INT(5)
+);
+INSERT INTO useri ( 
+	first_name, last_name, num_credits)
+	VALUES ( 'Dan', 'Bitman', '5');
+ 
+ALTER TABLE useri 
+ADD COLUMN data DATETIME;
+
+ALTER TABLE useri
+DROP COLUMN data;
+
+ALTER TABLE useri 
+MODIDY last_name VARCHAR(50);
